@@ -13,9 +13,9 @@
 </p>
 
 <p align="center">
-  <a href="https://wavever.github.io/clipth-website/"><img src="https://img.shields.io/badge/%E5%AE%98%E7%BD%91-%E5%9C%A8%E7%BA%BF-7AA487" alt="官网" /></a>
+  <a href="https://clipth.app"><img src="https://img.shields.io/badge/%E5%AE%98%E7%BD%91-clipth.app-7AA487" alt="官网" /></a>
   <a href="https://github.com/wavever/Clipth/actions/workflows/ci.yml"><img src="https://github.com/wavever/Clipth/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
-  <a href="https://github.com/wavever/Clipth/releases/latest"><img src="https://img.shields.io/github/v/release/wavever/Clipth" alt="最新版本" /></a>
+  <a href="https://clipth.app"><img src="https://img.shields.io/badge/%E4%B8%8B%E8%BD%BD-macOS-blue" alt="下载 macOS 版" /></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-yellow.svg" alt="MIT License" /></a>
   <img src="https://img.shields.io/badge/macOS-14%2B-blue" alt="macOS 14+" />
 </p>
@@ -203,7 +203,7 @@ args = ["--mcp"]
 
 ## 安装
 
-从 [GitHub Releases](https://github.com/wavever/Clipth/releases/latest) 下载最新 DMG，打开后将 Clipth 拖入 Applications。
+从官网 [clipth.app](https://clipth.app) 下载最新 DMG，打开后将 Clipth 拖入 Applications。
 
 当前公开版本使用稳定的自签名身份签名，以便 macOS 在更新后保留辅助功能权限。公开 notarization 在路线图中。如果 macOS 拦截下载版本，也可以直接从源码构建。
 

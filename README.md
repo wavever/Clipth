@@ -13,9 +13,9 @@
 </p>
 
 <p align="center">
-  <a href="https://wavever.github.io/clipth-website/"><img src="https://img.shields.io/badge/website-clipth-7AA487" alt="Website" /></a>
+  <a href="https://clipth.app"><img src="https://img.shields.io/badge/website-clipth.app-7AA487" alt="Website" /></a>
   <a href="https://github.com/wavever/Clipth/actions/workflows/ci.yml"><img src="https://github.com/wavever/Clipth/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
-  <a href="https://github.com/wavever/Clipth/releases/latest"><img src="https://img.shields.io/github/v/release/wavever/Clipth" alt="Latest release" /></a>
+  <a href="https://clipth.app"><img src="https://img.shields.io/badge/download-macOS-blue" alt="Download for macOS" /></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-yellow.svg" alt="MIT License" /></a>
   <img src="https://img.shields.io/badge/macOS-14%2B-blue" alt="macOS 14+" />
 </p>
@@ -203,7 +203,7 @@ Protected clips are redacted in MCP responses by default and carry `isProtected`
 
 ## Install
 
-Download the latest DMG from [GitHub Releases](https://github.com/wavever/Clipth/releases/latest), open it, and drag Clipth into Applications.
+Download the latest DMG from the official website, [clipth.app](https://clipth.app), open it, and drag Clipth into Applications.
 
 Current public releases are signed with a stable self-signed identity so macOS can keep Accessibility permission across updates. Public notarization is on the roadmap. If macOS blocks a downloaded build, you can build from source with unsigned local signing disabled.
 
