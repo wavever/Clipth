@@ -1,105 +1,91 @@
 <p align="center">
-  <img src="Clipth/Assets.xcassets/AppLogo.imageset/AppLogo@2x.png" width="96" alt="剪迹 logo" />
+  <img src="Clipth/Assets.xcassets/AppLogo.imageset/AppLogo@2x.png" width="96" alt="剪迹" />
 </p>
 
 <h1 align="center">剪迹 / Clipth</h1>
 
 <p align="center">
-  <a href="README.md">English</a> · <strong>中文</strong>
+  <strong>为 macOS 打造的本地优先剪贴板，离线语义搜索 + 内置 MCP，让 AI 直接用你的剪贴板。</strong>
 </p>
 
 <p align="center">
-  面向 macOS 与 AI 工具的本地优先剪贴板历史。
-</p>
-
-<p align="center">
-  <a href="https://clipth.app"><img src="https://img.shields.io/badge/%E5%AE%98%E7%BD%91-clipth.app-7AA487" alt="官网" /></a>
+  <a href="https://clipth.app"><img src="https://img.shields.io/badge/%E4%B8%8B%E8%BD%BD-macOS%2014%2B-black?logo=apple" alt="下载 macOS 版" /></a>
+  <a href="https://github.com/wavever/Clipth/stargazers"><img src="https://img.shields.io/github/stars/wavever/Clipth?style=flat" alt="Stars" /></a>
   <a href="https://github.com/wavever/Clipth/actions/workflows/ci.yml"><img src="https://github.com/wavever/Clipth/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
-  <a href="https://clipth.app"><img src="https://img.shields.io/badge/%E4%B8%8B%E8%BD%BD-macOS-blue" alt="下载 macOS 版" /></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-yellow.svg" alt="MIT License" /></a>
-  <img src="https://img.shields.io/badge/macOS-14%2B-blue" alt="macOS 14+" />
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-yellow.svg" alt="MIT" /></a>
 </p>
 
-剪迹是一个开源 macOS 剪贴板历史管理工具，内置离线语义搜索和 [Model Context Protocol](https://modelcontextprotocol.io/) 服务器。你可以在本机搜索、整理、复用剪贴板历史，也可以让 Claude Desktop、Claude Code、Cursor 等 AI 客户端在本地查询这些内容。云同步默认关闭，只会连接你主动配置的存储位置。
+<p align="center"><a href="README.md">English</a> · <strong>中文</strong> · <a href="https://clipth.app">clipth.app</a></p>
 
-Clipth 取自 "clip path"，对应中文名“剪迹”：被你复制过的内容留下的一条路径。
+## 开始使用
 
-## 版本边界
-
-本仓库是 Clipth 的开源基础功能版本，包含本仓库许可证所覆盖的剪贴板、搜索、整理、隐私、同步和 MCP 等核心功能。
-
-Clipth Pro 是独立的商业版本。Pro 专属功能、商业服务、支付与授权逻辑以及其他专有实现，均不属于本仓库，也不会随开源版本发布。请不要假定 Pro 版本中的代码或功能在本仓库中可用。
+1. **[下载 DMG](https://clipth.app)**，把剪迹拖进「应用程序」。
+2. 在任意地方按下 **⌘⇧V**，打开剪贴板历史。
+3. *（可选）* 设置 → AI，一键通过 MCP 接入 Claude Code、Cursor、Codex，以及另外 12 个客户端。
 
 ## 为什么是剪迹？
 
-- **默认本地优先**：除非主动开启加密同步，剪贴板历史、OCR 文本、标签、语义向量都只保存在你的 Mac 上。
-- **可抗冲突的加密同步**：可选用 iCloud 云盘、WebDAV、S3 兼容存储或本地文件夹同步，剪贴板明文不会离开设备。
-- **离线语义搜索**：基于 Apple `NLEmbedding`，不依赖云端 embedding API。
-- **AI 工作流友好**：应用 binary 可以作为 MCP stdio server，给 AI 客户端提供剪贴板检索和整理工具。
-- **原生 macOS 体验**：菜单栏、全局快捷键、快速粘贴、预览、片段、SwiftUI 界面。
-- **内容保护**：手机号、API 密钥等敏感内容在界面、导出和 MCP 中默认脱敏展示，原文仍保存在本机供复用。
-- **隐私控制**：暂停监听、排除来源 App、忽略敏感 pasteboard marker、剥离 URL 跟踪参数、禁用 MCP 工具、删除历史。
+- **本地优先** — 历史、OCR 文本、标签和语义向量都留在你的 Mac 上。加密同步默认关闭，除非你自己打开。
+- **离线按语义搜索** — 使用 Apple `NLEmbedding`，不调用云端 embedding API。
+- **为 AI 而生** — 应用本体就是 MCP 服务器，你的 AI 工具可以直接调用。
+- **敏感信息自动脱敏** — API 密钥和手机号在界面、导出和 MCP 中默认打码，原文仍留在本机。
+- **加密同步会合并** — iCloud 云盘、WebDAV、S3 兼容存储，或你指定的文件夹，AES-256-GCM。
+- **真正的原生应用** — SwiftUI 菜单栏应用，带快速粘贴、小组件、预览和片段。
+- **隐私开关** — 暂停捕获、排除来源 App、忽略敏感 pasteboard 标记、剥离 URL 跟踪参数、关闭 MCP 工具、删除历史。
 
-## 亮点：会合并，而不是互相覆盖的加密同步
-
-剪迹不会拿一台 Mac 的整份数据库覆盖另一台。它传输加密的增量操作，逐字段合并修改；当两台设备同时改动无法安全合并的正文时，还会留下可恢复的冲突副本。
-
-你可以选择自动同步，也可以保持手动。主窗口始终用紧凑图标呈现同步状态：关闭自动同步时可一键触发，同步中立即显示进度，完成后会明确提示成功或失败。
-
-| 遇到的情况 | 剪迹的处理方式 |
-|---|---|
-| 两台 Mac 修改不同字段 | 混合逻辑时钟与字段版本同时保留两边修改 |
-| 多台设备同时写入 | 不可变加密日志可跨过快照竞争继续被发现 |
-| 标签或分组关系分别变化 | 可收敛集合合并新增项，并保留删除语义 |
-| 离线设备带着旧数据回来 | 经设备确认的删除墓碑防止条目静默复活 |
-
-所有数据在到达 iCloud 云盘、WebDAV、S3 兼容存储或同步文件夹前，都会先在本机使用 AES-256-GCM 加密。落败内容会作为加密冲突副本保留 30 天，旧日志与孤儿附件则采用保守策略回收。[阅读同步架构 →](https://github.com/wavever/clipth-website/blob/main/docs/sync-architecture.md)
+名字来自 “clip path”（剪贴路径），中文叫「剪迹」：你复制过的东西留下的一条痕迹。
 
 ## 预览
 
-<p align="center">
-  <img src="assets/screenshots/board-mainpage-lits-cn-transparent.png" alt="主界面列表布局" width="720" />
-  <br/>
-  <em>主界面：列表布局</em>
-</p>
+下面是简体中文界面。
 
-<p align="center">
-  <img src="assets/screenshots/board-mainpage-list-cn-transparent.png" alt="主界面网格布局" width="720" />
-  <br/>
-  <em>主界面：网格布局</em>
-</p>
+<table>
+  <tr>
+    <td align="center" width="50%">
+      <img src="assets/screenshots/board-mainpage-lits-cn-transparent.png" alt="主窗口列表布局" width="380" /><br />
+      <sub>主窗口 · 列表</sub>
+    </td>
+    <td align="center" width="50%">
+      <img src="assets/screenshots/board-mainpage-list-cn-transparent.png" alt="主窗口网格布局" width="380" /><br />
+      <sub>主窗口 · 网格</sub>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="assets/screenshots/board-quick-copy-cn-transparent.png" alt="快速粘贴" width="380" /><br />
+      <sub>快速粘贴</sub>
+    </td>
+    <td align="center">
+      <img src="assets/screenshots/board-mcp-cn-transparent.png" alt="设置中的 MCP" width="380" /><br />
+      <sub>设置里的 MCP</sub>
+    </td>
+  </tr>
+</table>
 
-<p align="center">
-  <img src="assets/screenshots/board-filter-cn-transparent.png" alt="筛选" width="720" />
-  <br/>
-  <em>筛选与内容整理</em>
-</p>
+<details>
+<summary>更多截图</summary>
 
-<p align="center">
-  <img src="assets/screenshots/board-quick-copy-cn-transparent.png" alt="快速粘贴" width="720" />
-  <br/>
-  <em>支持键盘操作的快速粘贴</em>
-</p>
+<table>
+  <tr>
+    <td align="center" width="33%">
+      <img src="assets/screenshots/board-filter-cn-transparent.png" alt="筛选" width="280" /><br />
+      <sub>筛选</sub>
+    </td>
+    <td align="center" width="33%">
+      <img src="assets/screenshots/board-widget-cn-transparent.png" alt="macOS 小组件" width="280" /><br />
+      <sub>小组件</sub>
+    </td>
+    <td align="center" width="33%">
+      <img src="assets/screenshots/board-website-preview-cn-transparent.png" alt="链接预览" width="280" /><br />
+      <sub>链接预览</sub>
+    </td>
+  </tr>
+</table>
 
-<p align="center">
-  <img src="assets/screenshots/board-mcp-cn-transparent.png" alt="MCP 集成" width="720" />
-  <br/>
-  <em>MCP 服务器集成</em>
-</p>
+</details>
 
-<p align="center">
-  <img src="assets/screenshots/board-widget-cn-transparent.png" alt="小组件" width="720" />
-  <br/>
-  <em>macOS 小组件</em>
-</p>
-
-<p align="center">
-  <img src="assets/screenshots/board-website-preview-cn-transparent.png" alt="网站预览" width="720" />
-  <br/>
-  <em>链接预览</em>
-</p>
-
-## 功能特性
+<details>
+<summary>功能特性</summary>
 
 ### 捕获与复用
 
@@ -131,12 +117,12 @@ Clipth Pro 是独立的商业版本。Pro 专属功能、商业服务、支付�
 
 ### 内容保护
 
-- 自动且保守地脱敏敏感内容：中国大陆手机号（`13812345678` → `138****5678`）以及 API 密钥、令牌、密码——`appkey=…` 等标签形态,加上 `sk-`、`ghp_`、`AKIA` 等高置信前缀
-- 只脱敏敏感值本身,保留标签和上下文结构；对 UUID、哈希、时间戳、普通 URL 不误判
-- 列表、预览、菜单栏、Dynamic Island、Quick Paste、Quick Look、搜索摘要均展示脱敏内容,受保护条目带锁形徽标
+- 自动且保守地脱敏敏感内容：中国大陆手机号（`13812345678` → `138****5678`）以及 API 密钥、令牌、密码——`appkey=…` 等标签形态，加上 `sk-`、`ghp_`、`AKIA` 等高置信前缀
+- 只脱敏敏感值本身，保留标签和上下文结构；对 UUID、哈希、时间戳、普通 URL 不误判
+- 列表、预览、菜单栏、Dynamic Island、Quick Paste、Quick Look、搜索摘要均展示脱敏内容，受保护条目带锁形徽标
 - 本地存储不改写原文——复制、快速粘贴、复制为纯文本、编辑仍使用原始内容
 - 默认导出和 MCP 返回脱敏内容并带 `isProtected` 元数据；外发原文需显式开启
-- 设置 → 数据 → 隐私 提供总开关与统一的识别规则列表:内置的手机号 / App Key 规则可编辑、可恢复默认、可停用,也可添加关键词或正则自定义规则
+- 设置 → 数据 → 隐私 提供总开关与统一的识别规则列表：内置的手机号 / App Key 规则可编辑、可恢复默认、可停用，也可添加关键词或正则自定义规则
 
 ### 导出与统计
 
@@ -144,7 +130,23 @@ Clipth Pro 是独立的商业版本。Pro 专属功能、商业服务、支付�
 - 单条按原始格式导出，例如 text、PNG
 - 每日复制次数、14 天柱状图、GitHub 风格年度热力图
 
-### 加密同步
+</details>
+
+<details>
+<summary>会合并，而不是互相覆盖的加密同步</summary>
+
+剪迹不会拿一台 Mac 的整份数据库覆盖另一台。它传输加密的增量操作，逐字段合并修改；当两台设备同时改动无法安全合并的正文时，还会留下可恢复的冲突副本。
+
+你可以选择自动同步，也可以保持手动。主窗口始终用紧凑图标呈现同步状态：关闭自动同步时可一键触发，同步中立即显示进度，完成后会明确提示成功或失败。
+
+| 遇到的情况 | 剪迹的处理方式 |
+|---|---|
+| 两台 Mac 修改不同字段 | 混合逻辑时钟与字段版本同时保留两边修改 |
+| 多台设备同时写入 | 不可变加密日志可跨过快照竞争继续被发现 |
+| 标签或分组关系分别变化 | 可收敛集合合并新增项，并保留删除语义 |
+| 离线设备带着旧数据回来 | 经设备确认的删除墓碑防止条目静默复活 |
+
+所有数据在到达 iCloud 云盘、WebDAV、S3 兼容存储或同步文件夹前，都会先在本机使用 AES-256-GCM 加密。落败内容会作为加密冲突副本保留 30 天，旧日志与孤儿附件则采用保守策略回收。[阅读同步架构 →](https://github.com/wavever/clipth-website/blob/main/docs/sync-architecture.md)
 
 - 可选的双向同步，支持 iCloud 云盘、WebDAV、S3 兼容对象存储和本地同步文件夹（包括 Dropbox、OneDrive、Syncthing 与网络磁盘目录）
 - 支持手动或自动同步；主窗口提供紧凑的同步状态、即时进度反馈以及明确的成功或失败通知
@@ -154,7 +156,8 @@ Clipth Pro 是独立的商业版本。Pro 专属功能、商业服务、支付�
 - 同步历史、图片、标签、分组、收藏、置顶、垃圾桶状态及单个不超过 25 MB 的文件附件；设备设置、统计和语义向量仍保留在本机
 - 另一台 Mac 必须使用同一恢复密钥；密钥丢失后，现有远端数据无法恢复
 - 旧版 v1 清单会在下次成功同步时原位升级；恢复密钥会继续复用，远端 `.clipth-sync-v1` 目录在 Clipth 版本中保持稳定
-- 合并、提交、迁移和回收约束详见 [同步架构](https://github.com/wavever/clipth-website/blob/main/docs/sync-architecture.md)
+
+</details>
 
 ## MCP Server
 
@@ -185,7 +188,8 @@ command = "/Applications/Clipth.app/Contents/MacOS/Clipth"
 args = ["--mcp"]
 ```
 
-可用工具：
+<details>
+<summary>MCP 工具</summary>
 
 | 工具 | 用途 |
 |---|---|
@@ -199,13 +203,28 @@ args = ["--mcp"]
 | `delete_clip` / `restore_clip` | 软删除、彻底删除或恢复条目 |
 | `create_snippet` | 创建带标题和标签的片段 |
 
-受保护条目在 MCP 返回中默认脱敏并带 `isProtected` 元数据；返回原文需在 设置 → 数据 → 隐私 中显式开启。MCP 仍会把其它剪贴板内容暴露给你配置的客户端,敏感工作流启用前建议先阅读 [PRIVACY.md](PRIVACY.md)。
+</details>
+
+受保护条目在 MCP 返回中默认脱敏并带 `isProtected` 元数据；返回原文需在 设置 → 数据 → 隐私 中显式开启。MCP 仍会把其它剪贴板内容暴露给你配置的客户端，敏感工作流启用前建议先阅读 [PRIVACY.md](PRIVACY.md)。
 
 ## 安装
 
-从官网 [clipth.app](https://clipth.app) 下载最新 DMG，打开后将 Clipth 拖入 Applications。
+从官网 [clipth.app](https://clipth.app) 下载最新 DMG，打开后将 Clipth 拖入「应用程序」。
 
-当前公开版本使用稳定的自签名身份签名，以便 macOS 在更新后保留辅助功能权限。公开 notarization 在路线图中。如果 macOS 拦截下载版本，也可以直接从源码构建。
+<details>
+<summary>macOS 提示无法打开？</summary>
+
+当前公开版本使用稳定的自签名身份签名，以便更新后仍能保留辅助功能权限。尚未公证，公证在路线图中。Gatekeeper 可能会提示无法验证开发者。
+
+先把剪迹放进 `/Applications`，然后右键点按并选择**打开**，或清除下载隔离标记：
+
+```bash
+xattr -dr com.apple.quarantine /Applications/Clipth.app
+```
+
+也可以按下面的说明从源码构建。
+
+</details>
 
 ## 系统要求
 
@@ -232,17 +251,7 @@ xcodebuild \
   build
 ```
 
-### 维护者代码签名
-
-Release 使用固定的自签名证书，这样 macOS 才能在重新构建和更新后保留辅助功能权限。没有固定签名身份时，权限可能在每次构建后失效。
-
-首次配置：
-
-```bash
-scripts/generate-signing-cert.sh
-```
-
-脚本会打印 `SIGNING_CERT_P12_BASE64` 和 `SIGNING_CERT_PASSWORD`，用于配置 GitHub Actions secrets。
+维护者的发布签名说明见 [CONTRIBUTING.md](CONTRIBUTING.md#code-signing)。
 
 ## 快捷键
 
@@ -271,3 +280,5 @@ scripts/generate-signing-cert.sh
 ## 许可证
 
 剪迹使用 [MIT License](LICENSE) 开源。
+
+本仓库是开源版本；Clipth Pro 是独立的商业产品，Pro 专属功能不包含在这里。

@@ -36,15 +36,19 @@ xcodebuild \
 
 ## Code Signing
 
-Local development can use unsigned builds with `CODE_SIGNING_ALLOWED=NO`.
+Local development can use unsigned builds with `CODE_SIGNING_ALLOWED=NO`, as in the command above.
 
-The release workflow uses a stable signing identity so macOS Accessibility permission survives app updates. Maintainers should run:
+Public releases use a stable self-signed certificate (`Clipth Self-Signed`) so macOS keeps Accessibility permission across rebuilds and updates. Without a stable signing identity, that permission can be invalidated after each build even when the System Settings toggle still appears enabled. The certificate is self-signed, not a Developer ID, so the first launch can still show a Gatekeeper warning. See the Install section in the README for what users should do.
+
+Maintainers, run this once per machine to create and install the certificate:
 
 ```bash
 scripts/generate-signing-cert.sh
 ```
 
-and configure the printed GitHub Actions secrets before publishing signed releases.
+The script prints `SIGNING_CERT_P12_BASE64` and `SIGNING_CERT_PASSWORD`. Add both as GitHub Actions secrets before publishing a signed release.
+
+Do not generate a second certificate. A new identity changes the designated requirement and drops existing Accessibility grants. The script refuses to replace an existing `Clipth Self-Signed` identity unless you pass `--force`.
 
 ## Pull Request Guidelines
 
